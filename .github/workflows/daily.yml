@@ -27,41 +27,60 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Set up JDK 22
-        uses: actions/setup-java@v4
-        with:
-          java-version: '22'
-          distribution: 'temurin'
-          cache: maven
+    - name: Set up JDK 22
+      uses: actions/setup-java@v4
+      with:
+        java-version: '22'
+        distribution: 'temurin'
+        cache: maven
 
-      - name: Run tests with Maven
-        run: mvn clean test -DsuiteXmlFile=src/test/java/testng.xml
+    - name: Install AWS CLI
+      run: |
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install --update
+          
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Upload Reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: index-${{ github.run_number }}.html
-          path: ./reports/SparkReport
-          if-no-files-found: ignore
-          retention-days: 2
-          compression-level: 6
-          overwrite: true
+    - name: Download CSV Files from S3
+      run: aws s3 cp s3://poc-selenium-data/TestData.csv ./TestDataDownloaded.csv
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5.0.0
-        with:
-          token: ${{ github.token }}
+    - name: Run tests with Maven
+      run: mvn clean test -DsuiteXmlFile=src/test/java/testng.xml
 
-      - name: Upload GitHub Pages artifact
-        uses: actions/upload-pages-artifact@v3.0.1
-        with:
-          name: github-pages
-          path: ./reports/SparkReport
-          retention-days: 7
+    - name: Upload Modified CSV Files to S3
+      run: aws s3 cp ./TestDataDownloaded.csv s3://poc-selenium-data/TestData.csv
 
-      - name: Deploy GitHub Pages site
-        uses: actions/deploy-pages@v4.0.5
-        with:
-          token: ${{ github.token }}
+    - name: Upload Reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: index-${{ github.run_number }}.html
+        path: ./reports/SparkReport
+        if-no-files-found: ignore
+        retention-days: 2
+        compression-level: 6
+        overwrite: true
+
+    - name: Configure GitHub Pages
+      uses: actions/configure-pages@v5.0.0
+      with:
+        token: ${{ github.token }}
+
+    - name: Upload GitHub Pages artifact
+      uses: actions/upload-pages-artifact@v3.0.1
+      with:
+        name: github-pages
+        path: ./reports/SparkReport
+        retention-days: 7
+
+    - name: Deploy GitHub Pages site
+      uses: actions/deploy-pages@v4.0.5
+      with:
+        token: ${{ github.token }}
