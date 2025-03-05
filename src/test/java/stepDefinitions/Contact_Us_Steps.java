@@ -92,6 +92,7 @@ public class Contact_Us_Steps {
          try (CSVWriter writer = new CSVWriter(new FileWriter(folder+csvFilePath, true))) {
             String[] newRow = {"Test Data 2"};
             writer.writeNext(newRow);
+            System.out.println("I should be able to write on the CSV file");
         }
     }
 }
