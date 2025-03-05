@@ -97,10 +97,5 @@ public class Contact_Us_Steps {
             String[] newRow = {"Test Data"};
             writer.writeNext(newRow);
         }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e; 
-        }
     }
 }
