@@ -1,20 +1,20 @@
-name: Release to Main Workflow
+# name: Release to Main Workflow
 
-on:
-  push:
-    branches: [ "release" ]
+# on:
+#   push:
+#     branches: [ "release" ]
 
-jobs:
+# jobs:
 
-  build:
-    runs-on: ubuntu-latest
+#   build:
+#     runs-on: ubuntu-latest
 
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
+#     permissions:
+#       contents: read
+#       pages: write
+#       id-token: write
 
-    steps:
+#     steps:
 
 #    - uses: actions/checkout@v4
 #
@@ -55,13 +55,13 @@ jobs:
 #      with:
 #        token: ${{ github.token }}
 
-    - name: Merge branch
-      uses: devmasx/merge-branch@1.4.0
-      with:
-        label_name: Merging
-        target_branch: main
-        from_branch: release
-        head_to_merge: GITHUB_SHA
-        github_token: ${{ github.token }}
+    # - name: Merge branch
+    #   uses: devmasx/merge-branch@1.4.0
+    #   with:
+    #     label_name: Merging
+    #     target_branch: main
+    #     from_branch: release
+    #     head_to_merge: GITHUB_SHA
+    #     github_token: ${{ github.token }}
               
           
