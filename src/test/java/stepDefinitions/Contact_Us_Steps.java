@@ -90,10 +90,6 @@ public class Contact_Us_Steps {
         csvFilePath = folder + "TestData.csv";
 
          try (CSVWriter writer = new CSVWriter(new FileWriter(folder+csvFilePath, true))) {
-            if (!fileExists) {
-                String[] header = {"Column1"};
-                writer.writeNext(header);
-            }
             String[] newRow = {"Test Data"};
             writer.writeNext(newRow);
         }
