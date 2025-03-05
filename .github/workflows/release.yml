@@ -2,16 +2,13 @@ name: Release to Main Workflow
 
 on:
   pull_request:
-    branches: [ release ]
-    types:
-      - closed
+    branches: [ main ]
   push:
-    branches: [ release, main ]
+    branches: [ main ]
 
 jobs:
 
   build:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     permissions:
@@ -79,13 +76,5 @@ jobs:
       with:
         token: ${{ github.token }}
 
-    - name: Merge branch
-      uses: devmasx/merge-branch@1.4.0
-      with:
-        label_name: Merging
-        target_branch: main
-        from_branch: release
-        head_to_merge: GITHUB_SHA
-        github_token: ${{ github.token }}
               
           
