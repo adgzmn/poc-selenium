@@ -30,11 +30,9 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Install AWS CLI
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y awscli
-
+    - name: AWS CLI
+      uses: ItsKarma/aws-cli@v1.70.0
+          
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
