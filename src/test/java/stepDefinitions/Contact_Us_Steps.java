@@ -87,7 +87,7 @@ public class Contact_Us_Steps {
     public void i_should_be_able_to_write_on_the_CSV_file() throws Exception {
         String 
 		folder = "./",
-        csvFilePath = folder + "TestData.csv";
+        csvFilePath = folder + "TestDataDownloaded.csv";
 
          try (CSVWriter writer = new CSVWriter(new FileWriter(folder+csvFilePath, true))) {
             String[] newRow = {"Test Data 2"};
