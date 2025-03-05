@@ -1,15 +1,17 @@
 name: Release to Main Workflow
 
 on:
-  pull_request:
-    branches: [ "release" ]
-    types:
-      - closed
+  # pull_request:
+  #   branches: [ "release" ]
+  #   types:
+  #     - closed
+  push: 
+    branches: [ "develop/aws-s3" ]
 
 jobs:
 
   build:
-    if: github.event.pull_request.merged == true
+    # if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     permissions:
@@ -28,8 +30,26 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
+    - name: Install AWS CLI
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y awscli
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Download CSV Files from S3
+      run: aws s3 cp s3://poc-selenium-data/TestData.csv ./TestDataDownloaded.csv
+
     - name: Run tests with Maven
       run: mvn clean test -DsuiteXmlFile=src/test/java/testng.xml
+
+    - name: Upload Modified CSV Files to S3
+      run: aws s3 cp ./TestDataDownloaded.csv s3://poc-selenium-data/TestData.csv
 
     - name: Upload Reports
       uses: actions/upload-artifact@v4

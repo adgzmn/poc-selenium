@@ -13,6 +13,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 
+import com.opencsv.CSVWriter;
+
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Contact_Us_Steps {
     private WebDriver driver;
 
@@ -76,5 +81,26 @@ public class Contact_Us_Steps {
         WebElement message = driver.findElement(By.cssSelector("#contact_reply h1"));
         Assert.assertEquals(message.getText(), "Thank You for your Message!");
         System.out.println("I should be presented with a successful contact us submission message");
+    }
+
+    @Then("I should be able to write on the CSV file")
+    public void i_should_be_able_to_write_on_the_CSV_file() throws Exception {
+        String 
+		folder = "./",
+        csvFilePath = folder + "TestData.csv";
+
+         try (CSVWriter writer = new CSVWriter(new FileWriter(folder+csvFilePath, true))) {
+            if (!fileExists) {
+                String[] header = {"Column1"};
+                writer.writeNext(header);
+            }
+            String[] newRow = {"Test Data"};
+            writer.writeNext(newRow);
+        }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e; 
+        }
     }
 }
