@@ -90,7 +90,7 @@ public class Contact_Us_Steps {
         csvFilePath = folder + "TestData.csv";
 
          try (CSVWriter writer = new CSVWriter(new FileWriter(folder+csvFilePath, true))) {
-            String[] newRow = {"Test Data"};
+            String[] newRow = {"Test Data 2"};
             writer.writeNext(newRow);
         }
     }
