@@ -1,6 +1,8 @@
 name: Daily Smoke Test
 
 on:
+  push:
+    branches: [ main ]
   schedule:
 
 #    minute (0 - 59)
@@ -11,6 +13,7 @@ on:
 
   # Runs every 5:30 AM on Tuesdays and Thursdays
     - cron: '30 5 * * 2,4'
+    
 
 jobs:
 

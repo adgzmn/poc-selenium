@@ -1,0 +1,30 @@
+{
+  "name": "John Doe",
+  "age": 30,
+  "address": {
+    "city": "New York",
+    "country": "USA"
+  },
+  "hobbies": [
+    "Reading",
+    "Traveling",
+    "Gaming"
+  ],
+  "qa": {
+    "name": "Jesmar",
+    "job": "QA"
+  },
+  "qa": {
+    "okta": {
+      "user": "qjtorres",
+      "studentNum": 1313328,
+      "secret": "secretanswer"
+    }
+  },
+  "prod": {
+
+  },
+  "stg": {
+
+  }
+}
